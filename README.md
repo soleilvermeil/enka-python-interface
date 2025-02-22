@@ -1,4 +1,4 @@
-# Enka.Network Python API
+# Python Enka.Network interface
 
 Python module acting as an interface with Enka.Network's API.
 
