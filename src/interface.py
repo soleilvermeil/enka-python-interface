@@ -3,8 +3,8 @@ import logging
 
 # Custom modules
 from .utils import nested_get
-from .genshinutils import *
-from .genshintypes import *
+from .genshin_utils import *
+from .genshin_types import *
 
 
 class Equipment:

@@ -50,7 +50,7 @@ class ArtifactType(Enum):
     CIRCLET = "Circlet of Logos"
 
 
-ARE_PERCENT_STATS: set[StatModifier] = {
+PERCENT_STAT_MODIFIERS: set[StatModifier] = {
     StatModifier.HP_PERCENT,
     StatModifier.ATK_PERCENT,
     StatModifier.DEF_PERCENT,

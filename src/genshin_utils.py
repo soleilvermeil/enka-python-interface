@@ -6,8 +6,8 @@ import requests
 # Custom modules
 from .utils import nested_get
 from .constants import LANG, CACHE_FOLDER, BASE_URL
-from .genshintypes import *
-from .genshinconstants import RELIQUARIAFFIXEXCELCONFIGDATA, CHARACTERS, LOC
+from .genshin_types import *
+from .genshin_constants import RELIQUARIAFFIXEXCELCONFIGDATA, CHARACTERS, LOC
 
 
 
