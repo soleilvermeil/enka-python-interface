@@ -5,10 +5,16 @@ import requests
 
 
 # Custom modules
-from .constants import CONSTANTS_FOLDER
 from .utils import smart_json_load
 
 
+# Set some constants
+BASE_URL: str = "https://enka.network/api/uid"
+CACHE_FOLDER: str = os.path.join("cache")
+CONSTANTS_FOLDER: str = os.path.join("src", "constants")
+
+
+# Load some other constants
 CHARACTERS: dict[Any, Any] = smart_json_load(
     url="https://raw.githubusercontent.com/EnkaNetwork/API-docs/refs/heads/master/store/characters.json",
     cache_folder=CONSTANTS_FOLDER,
