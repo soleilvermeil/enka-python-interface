@@ -4,10 +4,10 @@ import requests
 
 
 # Custom modules
-from .utils import nested_get
-from .constants import LANG
-from .genshin_types import *
-from .genshin_constants import BASE_URL, PLAYERS_CACHE_FOLDER, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA
+from ..types import *
+from ..utils.general import nested_get
+from ..constants.general import LANG, PLAYERS_CACHE_FOLDER
+from ..constants.enka import BASE_URL, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA
 
 
 

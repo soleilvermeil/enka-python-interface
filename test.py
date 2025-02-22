@@ -1,5 +1,5 @@
 from src.interface import Player, Character
-from src.genshin_types import Stat
+from src.types import Stat
 
 
 def main() -> None:

@@ -2,9 +2,9 @@ import logging
 
 
 # Custom modules
-from .utils import nested_get
-from .genshin_utils import *
-from .genshin_types import *
+from .types import *
+from .utils.general import nested_get
+from .utils.enka import *
 
 
 class Equipment:

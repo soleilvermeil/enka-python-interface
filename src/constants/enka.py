@@ -5,13 +5,12 @@ import requests
 
 
 # Custom modules
-from .utils import smart_json_load
+from ..constants.general import CONSTANTS_CACHE_FOLDER
+from ..utils.general import smart_json_load
 
 
 # Set some constants
 BASE_URL: str = "https://enka.network/api/uid"
-PLAYERS_CACHE_FOLDER: str = os.path.join("cache", "players")
-CONSTANTS_CACHE_FOLDER: str = os.path.join("cache", "constants")
 
 
 # Load some other constants
