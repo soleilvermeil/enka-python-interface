@@ -7,7 +7,6 @@ from .genshinutils import *
 from .genshintypes import *
 
 
-
 class Equipment:
 
     def __init__(self, equipment_dict: WeaponDict | ArtifactDict) -> None:
@@ -105,3 +104,7 @@ class Player:
 
         # Prompt the creation
         logging.debug(f"Player {self.nickname} created")
+
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.nickname})"
