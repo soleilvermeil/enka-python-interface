@@ -7,7 +7,7 @@ import requests
 from .utils import nested_get
 from .constants import LANG
 from .genshin_types import *
-from .genshin_constants import BASE_URL, CACHE_FOLDER, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA
+from .genshin_constants import BASE_URL, PLAYERS_CACHE_FOLDER, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA
 
 
 
@@ -279,7 +279,7 @@ def get_player_dict(
         Get the informations from Enka.Network API.
         """
         # If 'allow_file_cache' is True, check if the file exists
-        file_path: str = os.path.join(CACHE_FOLDER, f"{uid}.json")
+        file_path: str = os.path.join(PLAYERS_CACHE_FOLDER, f"{uid}.json")
 
         # Check if the file exists, and load it if it does
         if allow_file_cache and os.path.exists(file_path):
@@ -306,7 +306,7 @@ def get_player_dict(
 
         # If 'allow_file_cache' is True, save the data to the file
         if allow_file_cache:
-            os.makedirs(CACHE_FOLDER, exist_ok=True)
+            os.makedirs(PLAYERS_CACHE_FOLDER, exist_ok=True)
             with open(file_path, "w") as file:
                 json.dump(data, file)
 
