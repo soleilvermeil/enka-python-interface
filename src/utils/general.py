@@ -1,7 +1,10 @@
 import os
 import requests
 import json
-from typing import Any, cast
+from typing import Any, cast, TypeVar
+
+
+AnyNumber = TypeVar("AnyNumber", int, float)
 
 
 def nested_get(data: dict[Any, Any], *keys: str) -> Any:
@@ -53,3 +56,10 @@ def smart_json_load(
 
     # Finally return the data
     return data
+
+
+def map_range(x: AnyNumber, x1: AnyNumber, x2: AnyNumber, y1: AnyNumber, y2: AnyNumber) -> AnyNumber:
+    """
+    Map a value from one range to another.
+    """
+    return y1 + (x - x1) * (y2 - y1) / (x2 - x1)
