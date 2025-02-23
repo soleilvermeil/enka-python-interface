@@ -1,12 +1,14 @@
 import os
 import json
 import requests
+import datetime as dt
+import logging
 
 
 # Custom modules
 from ..types import *
 from ..utils.general import nested_get
-from ..constants.general import LANG, PLAYERS_CACHE_FOLDER
+from ..constants.general import LANG, PLAYERS_CACHE_FOLDER, PLAYER_CACHE_EXPIRATION
 from ..constants.enka import BASE_URL, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA
 
 
@@ -283,8 +285,18 @@ def get_player_dict(
 
         # Check if the file exists, and load it if it does
         if allow_file_cache and os.path.exists(file_path):
-            with open(file_path, "r") as file:
-                return json.load(file)
+
+            # Get the last modification date of the file
+            timestamp: float = os.path.getmtime(file_path)
+            last_modification: dt.datetime = dt.datetime.fromtimestamp(timestamp)
+
+            # Retrieve file from cache only if it is less than 1 day old
+            if dt.datetime.now() - last_modification < PLAYER_CACHE_EXPIRATION:
+                logging.debug(f"Using cache for player {uid}.")
+                with open(file_path, "r") as file:
+                    return json.load(file)
+            else:
+                logging.debug(f"Cache for player {uid} is outdated. Fetching new data.")
 
         # Define the type for future variables
         response: requests.Response
