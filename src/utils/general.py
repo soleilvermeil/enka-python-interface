@@ -104,3 +104,15 @@ def map_range(x: AnyNumber, x1: AnyNumber, x2: AnyNumber, y1: AnyNumber, y2: Any
     Map a value from one range to another.
     """
     return y1 + (x - x1) * (y2 - y1) / (x2 - x1)
+
+
+def median(lst: list[AnyNumber]) -> AnyNumber:
+    """
+    Compute the median of a list of numbers.
+    """
+    sorted_lst = sorted(lst)
+    n = len(sorted_lst)
+    if n % 2 == 0:
+        return (sorted_lst[n // 2 - 1] + sorted_lst[n // 2]) / 2
+    else:
+        return sorted_lst[n // 2]

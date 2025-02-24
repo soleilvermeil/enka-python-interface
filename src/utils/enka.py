@@ -102,6 +102,10 @@ def get_artifact_main_stat(
     # Find the corresponding main stat type
     main_stat_type: StatModifier = prop_id_to_artifact_stat(main_stat_id)
 
+    # Adjust the value if it is a percentage
+    if main_stat_type in PERCENT_STAT_MODIFIERS:
+        main_stat_value /= 100
+
     # Return the main stat type and its value
     return main_stat_type, main_stat_value
 
@@ -120,10 +124,20 @@ def get_artifact_substats(
     # Initialize the list of substats
     substats: list[tuple[StatModifier, float]] = []
     for substat_dict in substat_dicts:
+
+        # Find the raw data of the substat
         substat_id = nested_get(substat_dict, "appendPropId")
-        substat_name = prop_id_to_artifact_stat(substat_id)
-        substat_value = nested_get(substat_dict, "statValue")
-        substats.append((substat_name, substat_value))
+        substat_value: float = nested_get(substat_dict, "statValue")
+
+        # Find the corresponding substat type
+        substat_type: StatModifier = prop_id_to_artifact_stat(substat_id)
+
+        # Adjust the value if it is a percentage
+        if substat_type in PERCENT_STAT_MODIFIERS:
+            substat_value /= 100
+
+        # Append the substat to the list
+        substats.append((substat_type, substat_value))
 
     # Return the list of substats
     return substats

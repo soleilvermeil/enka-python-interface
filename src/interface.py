@@ -42,6 +42,9 @@ class Artifact(Equipment):
         # Initialize the parent class
         super().__init__(artifact_dict)
 
+        # Set type
+        self.type: ArtifactType = get_artifact_type(artifact_dict)
+
         # Set level
         self.level: int = get_artifact_level(artifact_dict)
 
