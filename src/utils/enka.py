@@ -9,7 +9,7 @@ import logging
 from ..types import *
 from ..utils.general import nested_get
 from ..constants.general import LANG, PLAYERS_CACHE_FOLDER, PLAYER_CACHE_EXPIRATION
-from ..constants.enka import BASE_URL, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA
+from ..constants.enka import BASE_URL, CHARACTERS, LOC, RELIQUARIAFFIXEXCELCONFIGDATA, RESPONSE_CODES
 
 
 
@@ -279,6 +279,19 @@ def get_player_dict(
     ) -> PlayerDict:
         """
         Get the informations from Enka.Network API.
+
+        Args:
+            uid (int): the UID of the player.
+            summary_only (bool): if True, only the summary is returned.
+            allow_file_cache (bool): if True, the data is saved to a file.
+
+        Returns:
+            data (PlayerDict): the data of the player.
+
+        Raises:
+            requests.HTTPError: if the Enka.Network API returns an error.
+            Exception: if the request failed for an unexpected reason (which
+                is not related to the Enka.Network API).
         """
         # If 'allow_file_cache' is True, check if the file exists
         file_path: str = os.path.join(PLAYERS_CACHE_FOLDER, f"{uid}.json")
@@ -293,8 +306,11 @@ def get_player_dict(
             # Retrieve file from cache only if it is less than 1 day old
             if dt.datetime.now() - last_modification < PLAYER_CACHE_EXPIRATION:
                 logging.debug(f"Using cache for player {uid}.")
-                with open(file_path, "r") as file:
-                    return json.load(file)
+                try:
+                    with open(file_path, "r") as file:
+                        return json.load(file)
+                except json.JSONDecodeError:
+                    logging.error(f"Could not read cache for player {uid}. Fetching new data.")
             else:
                 logging.debug(f"Cache for player {uid} is outdated. Fetching new data.")
 
@@ -302,18 +318,19 @@ def get_player_dict(
         response: requests.Response
         data: PlayerDict
 
-        # If summary_only is False, return the full data
+        # If summary_only is False, return the full data. Otherwise, only
+        # return a summary
         if not summary_only:
             response = requests.get(f"{BASE_URL}/{uid}")
-            if response.status_code != 200:
-                raise Exception(f"Response code {response.status_code}.")
-            data = response.json()
-
-        # If summary_only is True, return only the summary
         else:
             response = requests.get(f"{BASE_URL}/{uid}?info")
-            if response.status_code != 200:
-                raise Exception(f"Response code {response.status_code}.")
+
+        # Check the status code of the response
+        if response.status_code in RESPONSE_CODES:
+            raise requests.HTTPError(RESPONSE_CODES[response.status_code])
+        elif response.status_code != 200:
+            raise Exception(f"Unexpected status code {response.status_code}.")
+        else:
             data = response.json()
 
         # If 'allow_file_cache' is True, save the data to the file
