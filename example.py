@@ -7,6 +7,10 @@ def main() -> None:
     # Create the player object
     player: Player = Player(uid=703047530)
 
+    if len(player.characters) == 0:
+        print("No characters found")
+        return
+
     # Get a character and print their stats
     character: Character = player.characters[0]
     print(character.name)

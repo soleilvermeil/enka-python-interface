@@ -1,4 +1,6 @@
 import logging
+from rich import traceback
+traceback.install()
 
 
 # Custom modules
@@ -93,13 +95,13 @@ class Player:
     def __init__(self, uid: int) -> None:
 
         # Get the player data
-        player_dict: PlayerDict = get_player_dict(uid=uid)
+        player_dict: PlayerDict = get_player_dict(uid=uid, summary_only=False)
 
         # Set nickname
         self.nickname: str = get_player_nickname(player_dict)
 
         # Set characters
-        character_dicts: CharacterDict = nested_get(player_dict, "avatarInfoList")
+        character_dicts: list[CharacterDict] = nested_get(player_dict, "avatarInfoList", default=[])
         self.characters: list[Character] = [Character(character_dict) for character_dict in character_dicts]
 
         # Prompt the creation
